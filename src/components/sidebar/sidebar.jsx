@@ -5,7 +5,7 @@ import
  import { IoPersonAddSharp } from "react-icons/io5";
  import { GiMechanicGarage } from "react-icons/gi";
  import { FaFileInvoiceDollar } from "react-icons/fa6";
- import 'App.css';
+ import '../header/header.css';
 
 const Sidebar = ({openSidebarToggle, OpenSidebar}) => {
   return (
@@ -45,7 +45,7 @@ const Sidebar = ({openSidebarToggle, OpenSidebar}) => {
             </li>
             <li className='sidebar-list-item'>
                 <a href="">
-                    <BsFillGearFill className='icon'/> Setting
+                    <BsFillGearFill className='icon'/> Settings
                 </a>
             </li>
         </ul>
