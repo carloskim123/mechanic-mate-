@@ -19,35 +19,34 @@ const Login = () => {
     const handleLogin = async (event) => {
         event.preventDefault();
         try {
-            // Send login request to backend server
-            const response = await fetch('/login', { // Change '/' to '/login' for login endpoint
+            const response = await fetch('/login', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ username, password })
             });
-
-            if (response.ok) {
-                // Authentication successful, redirect to dashboard
-                navigate("/dashboard");
-            } else {
-                // Authentication failed, display error message
-                const errorData = await response.json();
-                throw new Error(errorData.message || "Login failed. Please try again.");
+    
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
+    
+            navigate("/dashboard");
         } catch (error) {
-            // Handle any errors that occur during login
             console.error("Login error:", error.message);
             alert(error.message);
         }
     };
-
-
+    
     const handleRegistration = async (event) => {
         event.preventDefault();
+    
+        if (password !== confirmPassword) {
+            alert("Passwords do not match.");
+            return;
+        }
+    
         try {
-            // Send registration request to backend server
             const response = await fetch('/register', {
                 method: "POST",
                 headers: {
@@ -55,17 +54,13 @@ const Login = () => {
                 },
                 body: JSON.stringify({ username, email, password })
             });
-
-            if (response.ok) {
-                // Registration successful, redirect to login page
-                navigate("/login");
-            } else {
-                // Registration failed, display error message
-                const errorData = await response.json();
-                throw new Error(errorData.message || "Registration failed. Please try again.");
+    
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
+    
+            navigate("/login");
         } catch (error) {
-            // Handle any errors that occur during registration
             console.error("Registration error:", error.message);
             alert(error.message);
         }
@@ -111,3 +106,4 @@ const Login = () => {
 };
 
 export default Login;
+   
