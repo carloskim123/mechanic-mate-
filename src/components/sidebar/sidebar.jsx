@@ -1,13 +1,16 @@
-import React from 'react'
-import 
-{ BsFillGrid3X3GapFill, BsPeopleFill, BsMenuButtonWideFill, BsFillGearFill}
- from 'react-icons/bs'
- import { IoPersonAddSharp } from "react-icons/io5";
- import { GiMechanicGarage } from "react-icons/gi";
- import { FaFileInvoiceDollar } from "react-icons/fa6";
- import '../header/header.css';
+import React, { useState } from 'react'
+import { BsPeopleFill } from 'react-icons/bs'
+import { IoPersonAddSharp, IoCarSportSharp, IoAddSharp } from "react-icons/io5";
+import { GiMechanicGarage } from "react-icons/gi";
+import { FaUserPlus, FaEye } from "react-icons/fa"; 
+import { FiLogOut } from "react-icons/fi";
+import '../header/header.css';
 
 const Sidebar = ({openSidebarToggle, OpenSidebar}) => {
+  const [showCustomerDropdown, setShowCustomerDropdown] = useState(false);
+  const [showCarsDropdown, setShowCarsDropdown] = useState(false);
+  const [showServiceDropdown, setShowServiceDropdown] = useState(false);
+
   return (
     <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive": ""}>
         <div className='sidebar-title'>
@@ -18,35 +21,40 @@ const Sidebar = ({openSidebarToggle, OpenSidebar}) => {
         </div>
 
         <ul className='sidebar-list'>
-            <li className='sidebar-list-item'>
+            <li className='sidebar-list-item' onMouseEnter={() => setShowCustomerDropdown(true)} onMouseLeave={() => setShowCustomerDropdown(false)}>
                 <a href="">
-                    <FaFileInvoiceDollar className='icon'/> Create Invoice
-                </a>
+                    <BsPeopleFill className='icon'/> Customer 
+                </a> 
+                {showCustomerDropdown && (
+                  <ul className='dropdown'>
+                    <li><a href=""><FaUserPlus className='icon'/> Create Customer</a></li>
+                    <li><a href=""><FaEye className='icon'/> View Customer</a></li>
+                  </ul>
+                )}
             </li>
-            <li className='sidebar-list-item'>
+            <li className='sidebar-list-item' onMouseEnter={() => setShowCarsDropdown(true)} onMouseLeave={() => setShowCarsDropdown(false)}>
                 <a href="">
-                    <IoPersonAddSharp className='icon'/> New Customer
+                    <IoPersonAddSharp className='icon'/> Cars
                 </a>
+                {showCarsDropdown && (
+                  <ul className='dropdown'>
+                    <li><a href=""><IoCarSportSharp className='icon'/> Create Cars</a></li>
+                    <li><a href=""><FaEye className='icon'/> View Cars</a></li>
+                  </ul>
+                )}
             </li>
-            <li className='sidebar-list-item'>
+            <li className='sidebar-list-item' onMouseEnter={() => setShowServiceDropdown(true)} onMouseLeave={() => setShowServiceDropdown(false)}>
                 <a href="">
-                    <BsFillGrid3X3GapFill className='icon'/> Categories
+                    <BsPeopleFill className='icon'/> Service
                 </a>
+                {showServiceDropdown && (
+                  <ul className='dropdown'>
+                    <li><a href=""><IoAddSharp className='icon'/> Create New Service</a></li>
+                  </ul>
+                )}
             </li>
-            <li className='sidebar-list-item'>
-                <a href="">
-                    <BsPeopleFill className='icon'/> Customers
-                </a>
-            </li>           
-            <li className='sidebar-list-item'>
-                <a href="">
-                    <BsMenuButtonWideFill className='icon'/> Reports
-                </a>
-            </li>
-            <li className='sidebar-list-item'>
-                <a href="">
-                    <BsFillGearFill className='icon'/> Settings
-                </a>
+            <li className='sidebar-list-item'> 
+                <a href=''><FiLogOut className='icon'/> Logout</a>
             </li>
         </ul>
     </aside>
