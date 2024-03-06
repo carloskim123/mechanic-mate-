@@ -1,26 +1,38 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/loginUser/loginUser';
 import Dashboard from './components/dashboard/dashboard';
+import AuthContext from '../src/components/authContext/authContext';
+import Cookies from 'js-cookie'
+import Root from './components/root';
+import Register from './components/registerUser/registerUser';
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [auth, setAuth] = useState(false);
+  const [accountCreated, setAccountCreated] = useState(false);
 
-  const handleAuthentication = (status) => {
-    setIsAuthenticated(status);
-  };
+  const readCookie = () => {
+    const user = Cookies.get("token");
+    if (user) {
+      setAuth(true)
+    }
+  }
+  useEffect(() => {
+    readCookie();
+  }, [])
 
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={<Login onAuthentication={handleAuthentication} />}
-        />
-        <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Login onAuthentication={handleAuthentication} />} />
-      </Routes>
-    </Router>
-  );
+    <AuthContext.Provider value={{ auth, setAuth, setAccountCreated, accountCreated }}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Root />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </Router>
+    </AuthContext.Provider>
+  )
 };
 
 export default App;
