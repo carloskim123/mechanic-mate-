@@ -3,8 +3,9 @@ import AuthContext from '../authContext/authContext';
 import { useNavigate } from 'react-router-dom';
 import Header from '../header/header';
 import Sidebar from '../sidebar/sidebar';
-import Main from "../main/main";
+import CreateCustomer from '../createCustomer/createCustomer';
 import './dashboard.css';
+import ViewCustomers from '../viewCustomer/viewCustomers';
 
 const Dashboard = () => {
     const { auth } = useContext(AuthContext);
@@ -19,7 +20,8 @@ const Dashboard = () => {
         <div>
             <Header />
             <Sidebar />
-            <Main />
+            <CreateCustomer />
+            <ViewCustomers />
             {/* Rest of your dashboard content goes here */}
         </div>
     );
