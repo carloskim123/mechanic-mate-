@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { BsPeopleFill } from 'react-icons/bs'
+import React, { useState } from 'react';
+import { BsPeopleFill } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 import { IoPersonAddSharp, IoCarSportSharp, IoAddSharp } from "react-icons/io5";
 import { GiMechanicGarage } from "react-icons/gi";
 import { FaUserPlus, FaEye } from "react-icons/fa"; 
@@ -27,7 +28,7 @@ const Sidebar = ({openSidebarToggle, OpenSidebar}) => {
                 </a> 
                 {showCustomerDropdown && (
                   <ul className='dropdown'>
-                    <li><a href=""><FaUserPlus className='icon'/> Create Customer</a></li>
+                    <li><Link to="/create-customer"><FaUserPlus className='icon'/> Create Customer</Link></li>
                     <li><a href=""><FaEye className='icon'/> View Customer</a></li>
                   </ul>
                 )}
