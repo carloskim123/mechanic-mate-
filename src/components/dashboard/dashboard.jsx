@@ -6,6 +6,12 @@ import Sidebar from '../sidebar/sidebar';
 import CreateCustomer from '../createCustomer/createCustomer';
 import './dashboard.css';
 import ViewCustomers from '../viewCustomer/viewCustomers';
+import CreateCars from '../createCars/createCars';
+import ViewCars from '../viewCars/viewCars';
+import CreateServiceDetails from '../createService/createServiceDetails';
+import ViewServiceDetails from '../viewSeviceDetails/viewServiceDetails';
+import DeleteServiceDetails from '../deleteServiceDetails/deleteServiceDetails';
+import UpdateServiceDetails from '../updateServiceDetails/updateServiceDetails';
 
 const Dashboard = () => {
     const { auth } = useContext(AuthContext);
@@ -22,7 +28,13 @@ const Dashboard = () => {
             <Sidebar />
             <CreateCustomer />
             <ViewCustomers />
-            {/* Rest of your dashboard content goes here */}
+            <CreateCars />
+            <ViewCars />
+            <CreateServiceDetails />
+            <ViewServiceDetails />
+            <DeleteServiceDetails />
+            <UpdateServiceDetails />
+            
         </div>
     );
 };
