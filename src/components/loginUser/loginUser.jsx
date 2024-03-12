@@ -1,42 +1,63 @@
-import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { FaLock } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import AuthContext from "../authContext/authContext";
 import './loginUser.css';
 
-const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const navigate = useNavigate();
+const LOGIN_URL = 'http://localhost:7107/api/admin/login';
 
+const Login = () => {
     const { setAuth } = useContext(AuthContext)
 
-    const handleLogin = async (event) => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const [errMsg, setErrMsg] = useState('');
+
+    useEffect(() => {
+        setErrMsg('');        
+    }, [email, password])
+
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
+
         try {
-            const response = await fetch('/login', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ email, password }) // Use email instead of username
+            const response = await fetch(LOGIN_URL, {
+                method: 'POST',
+                body: JSON.stringify({ email, password }),
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
             });
-    
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            console.log(JSON.stringify(response?.data));
+            setAuth({ email, password, });
+            setEmail('');
+            setPassword('');
+            navigate(from, { replace: true });
+
+        } catch (err) {
+            if (!err?.response) {
+                setErrMsg('No Server Response');
+            } else if (err.response?.status === 400) {
+                setErrMsg('Missing Username or Password');
+            } else if (err.response?.status === 401) {
+                setErrMsg('Unauthorized');
+            } else {
+                setErrMsg('Login Failed');
             }
-    
-            navigate("/dashboard");
-        } catch (error) {
-            console.error("Login error:", error.message);
-            alert(error.message);
         }
-    };
-    
+    }            
+         
     return (
         <div className="wrapper">
-            <form onSubmit={handleLogin}>
+            <p className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+            <form onSubmit={handleSubmit}>
                 <h1>Sign In</h1>
                 <div className="input-box">
                     <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
